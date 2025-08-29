@@ -8,11 +8,9 @@ const Header = (props) => {
   let currentUser = "User"
 
   if (rawUser) {
-    // Case 1: Admin login
     if (rawUser === "admin" || rawUser.replace(/"/g, '') === "admin") {
       currentUser = "Admin"
     } 
-    // Case 2: Employee login
     else {
       try {
         const parsedUser = JSON.parse(rawUser)
