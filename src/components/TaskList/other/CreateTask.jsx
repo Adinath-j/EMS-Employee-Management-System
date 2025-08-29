@@ -1,124 +1,119 @@
-import React, { useContext, useState } from 'react'
-import { AuthContext } from '../../../context/AuthProvider'
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../context/AuthProvider";
 
 const CreateTask = () => {
-    const [userData, setUserData] = useContext(AuthContext)
+  const [taskTitle, setTaskTitle] = useState("");
+  const [taskDescription, setTaskDescription] = useState("");
+  const [date, setDate] = useState("");
+  const [assignTo, setAssignTo] = useState("");
+  const [category, setCategory] = useState("todo");
 
+  // userData could be null initially → fallback to empty array
+  const [userData, setUserData] = useContext(AuthContext) || [[], () => {}];
 
-    const [taskTitle, setTaskTitle] = useState('')
-    const [desc, setdesc] = useState('')
-    const [assignDate, setassignDate] = useState('')
-    const [taskCategory, setTaskCategory] = useState('')
-    const [assignTo, setAssignTo] = useState('')
+  const submitHandler = (e) => {
+    e.preventDefault();
 
-    const [newTask, setNewTask] = useState({})
+    if (!taskTitle || !taskDescription || !date || !assignTo) {
+      alert("Please fill all fields before submitting!");
+      return;
+    }
 
-    const submitHandler = (e) => {
-  e.preventDefault();
+    const taskObj = {
+      title: taskTitle,
+      description: taskDescription,
+      date,
+      category,
+      active: false,
+      newTask: true,
+      failed: false,
+      completed: false,
+    };
 
-  const taskObj = {
-    title: taskTitle,   
-    description: desc,
-    date: assignDate,
-    category: taskCategory,
-    active: false,
-    newTask: true,
-    failed: false,
-    completed: false,
+    const updatedData = (userData || []).map((elem) => {
+      if (assignTo === elem.firstname) {
+        return {
+          ...elem,
+          tasks: [...(elem.tasks || []), taskObj],
+          taskNumbers: {
+            ...elem.taskNumbers,
+            newTask: (elem.taskNumbers?.newTask || 0) + 1,
+          },
+        };
+      }
+      return elem;
+    });
+
+    setUserData(updatedData);
+    localStorage.setItem("employees", JSON.stringify(updatedData));
+
+    // reset form
+    setTaskTitle("");
+    setTaskDescription("");
+    setDate("");
+    setAssignTo("");
+    setCategory("todo");
   };
 
-  const updatedData = userData.map((elem) => {
-    if (assignTo === elem.firstname) {
-      return {
-        ...elem,
-        tasks: [...elem.tasks, taskObj],
-        taskNumbers: {
-          ...elem.taskNumbers,
-          newTask: elem.taskNumbers.newTask + 1
-        }
-      };
-    }
-    return elem;
-  });
+  return (
+    <div className="p-6 bg-white shadow-lg rounded-xl w-full">
+      <h2 className="text-xl font-bold mb-4">Create New Task</h2>
+      <form onSubmit={submitHandler} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Task Title"
+          value={taskTitle}
+          onChange={(e) => setTaskTitle(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
 
-  setUserData(updatedData);
+        <textarea
+          placeholder="Task Description"
+          value={taskDescription}
+          onChange={(e) => setTaskDescription(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
 
-  // also update localStorage, otherwise it resets on refresh
-  localStorage.setItem('employees', JSON.stringify(updatedData));
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          className="w-full p-2 border rounded"
+        />
 
-  // clear fields
-  setTaskTitle('');
-  setdesc('');
-  setassignDate('');
-  setTaskCategory('');
-  setAssignTo('');
+        <select
+          value={assignTo}
+          onChange={(e) => setAssignTo(e.target.value)}
+          className="w-full p-2 border rounded"
+        >
+          <option value="">-- Assign To --</option>
+          {(userData || []).map((user, idx) => (
+            <option key={idx} value={user.firstname}>
+              {user.firstname}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full p-2 border rounded"
+        >
+          <option value="todo">To Do</option>
+          <option value="inprogress">In Progress</option>
+          <option value="underreview">Under Review</option>
+          <option value="completed">Completed</option>
+        </select>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+        >
+          Create Task
+        </button>
+      </form>
+    </div>
+  );
 };
 
-    return (
-        <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
-            <form onSubmit={(e) => { submitHandler(e) }} className="flex-wrap flex items-start w-full justify-between">
-                <div className="w-1/2">
-                    <div>
-                        <h3 className="text-sm text-gray-300 mb-0.5">Task Title</h3>
-                        <input
-                            value={taskTitle}
-                            onChange={(e) => {
-                                setTaskTitle(e.target.value)
-                            }}
-                            type="text"
-                            placeholder="Enter the Task"
-                            className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent"
-                        />
-                    </div>
-                    <div>
-                        <h3 className="text-sm text-gray-300 mb-0.5">Date</h3>
-                        <input
-                            value={assignDate}
-                            onChange={(e) => {
-                                setassignDate(e.target.value)
-                            }}
-                            className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent" type="date" />
-                    </div>
-                    <div>
-                        <h3 className="text-sm text-gray-300 mb-0.5">Assign to</h3>
-                        <input
-                            value={assignTo}
-                            onChange={(e) => {
-                                setAssignTo(e.target.value)
-                            }}
-                            type="text" placeholder="Employee Name" className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent" />
-                    </div>
-                    <div>
-                        <h3 className="text-sm text-gray-300 mb-0.5">Category</h3>
-                        <input
-                            value={taskCategory}
-                            onChange={(e) => {
-                                setTaskCategory(e.target.value)
-                            }}
-                            className="text-sm py-1 px-2 w-4/5 rounded outline-none bg-transparent" type="text" placeholder="Design, dev, etc" />
-                    </div>
-                </div>
-                <div className="w-2/5 flex-col items-start">
-                    <h3 className="text-sm text-gray-300 mb-0.5">Description</h3>
-                    <textarea
-                        value={desc}
-                        onChange={(e) => {
-                            setdesc(e.target.value)
-                        }}
-                        className="w-full h-44 text-sm py-2 px-4 rounded outline-none bg-transparent border-[1px] border-gray-400"
-                        placeholder="Enter Description"
-                        cols="25"
-                        rows="10"
-                        name=""
-                        id=""
-                    ></textarea>
-                    <button className="w-full hover:cursor-pointer hover:bg-emerald-700 bg-emerald-400 px-3 py-2 rounded active:scale-95 font-bold">
-                        Create Task
-                    </button>
-                </div>
-            </form>
-        </div>
-    )
-}
-
-export default CreateTask
+export default CreateTask;
