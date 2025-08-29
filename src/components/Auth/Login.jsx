@@ -1,47 +1,52 @@
 import React, { useState } from "react";
 
 const Login = ({ loginHandler }) => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const [email, SetEmail] = useState("");
-  const [password, setPassword] = useState('')
   const SubmitHandler = (e) => {
     e.preventDefault();
-    loginHandler(email,password)
-    setPassword('')
-    SetEmail('')
+    loginHandler(email, password);
+    setEmail("");
+    setPassword("");
   };
 
   return (
-    <div className="flex items-center justify-center h-screen w-screen">
-      <div className="border-2 border-emerald-500 px-20 py-40 rounded-3xl">
+    <div className="flex items-center justify-center h-screen w-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
+      <div className="w-full max-w-md bg-gray-900/70 backdrop-blur-lg shadow-2xl rounded-2xl p-8 border border-emerald-500/30">
+        <h1 className="text-3xl font-bold text-emerald-400 text-center mb-6">
+          Login
+        </h1>
         <form
-          onSubmit={(e) => {
-            SubmitHandler(e);
-          }}
-          className="flex flex-col justify-center items-center"
+          onSubmit={SubmitHandler}
+          className="flex flex-col space-y-5"
         >
           <input
             value={email}
-            onChange={(e) => {
-              SetEmail(e.target.value);
-            }}
-            className="text-xl border-emerald-500 border-2 mt-4 rounded-full py-2 px-4 text-white outline-none placeholder:text-zinc-400"
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full text-lg border border-emerald-500/40 rounded-xl py-3 px-4 bg-gray-800 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
             type="email"
-            placeholder="Enter email"
+            placeholder="Enter your email"
+            required
           />
           <input
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value)
-            }}
-            className="text-xl border-emerald-500 mt-4 border-2 rounded-full py-2 px-4 text-white outline-none placeholder:text-zinc-400"
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full text-lg border border-emerald-500/40 rounded-xl py-3 px-4 bg-gray-800 text-white placeholder:text-gray-400 focus:ring-2 focus:ring-emerald-500 outline-none transition-all"
             type="password"
-            placeholder="Enter password"
+            placeholder="Enter your password"
+            required
           />
-          <button className=" text-xl bg-emerald-500 mt-4 border-white border-2 active:scale-95  rounded-xl py-2 px-4 text-white outline-none">
+          <button
+            type="submit"
+            className="w-full text-lg font-semibold bg-emerald-500 hover:bg-emerald-600 active:scale-95 rounded-xl py-3 px-4 text-white shadow-md transition-all"
+          >
             Login
           </button>
         </form>
+        <p className="text-center text-gray-400 text-sm mt-6">
+          Forgot password? <span className="text-emerald-400 cursor-pointer hover:underline">Reset</span>
+        </p>
       </div>
     </div>
   );

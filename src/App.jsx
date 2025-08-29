@@ -38,8 +38,6 @@ useEffect(()=>{
     }
   }
 
-
-
   return (
     <>
       {!user ? <Login loginHandler={loginHandler} /> : ''}
