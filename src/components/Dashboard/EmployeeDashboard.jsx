@@ -1,4 +1,3 @@
-import React from 'react'
 import Header from '../TaskList/other/Header'
 import TaskListNums from '../TaskList/other/TaskListNums'
 import TaskList from '../TaskList/TaskList'

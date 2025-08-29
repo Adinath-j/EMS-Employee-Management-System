@@ -1,33 +1,42 @@
-import React, { useState, useEffect } from 'react'
-import { setLocalStorage } from '../../../utils/localStorage'
+import React, { useContext } from 'react'
+import { AuthContext } from '../../../context/AuthProvider'
 
 const Header = (props) => {
-  // const [username, setUsername] = useState('')
+  const rawUser = localStorage.getItem('loggedInUser')
+  const [userData] = useContext(AuthContext)
 
-  // useEffect(() => {
-  //   if (!data) {
-  //     setUsername('Admin')
-  //   } else {
-  //     setUsername(data.firstname)
-  //   }
-  // }, []) 
-  
-  const logOutUser = ()=>{
-    localStorage.setItem('loggedInUser','')
+  let currentUser = "User"
+
+  if (rawUser) {
+    // Case 1: Admin login
+    if (rawUser === "admin" || rawUser.replace(/"/g, '') === "admin") {
+      currentUser = "Admin"
+    } 
+    // Case 2: Employee login
+    else {
+      try {
+        const parsedUser = JSON.parse(rawUser)
+        currentUser = parsedUser?.data?.firstname || "Admin"
+      } catch (err) {
+        console.error("Error parsing loggedInUser:", err)
+      }
+    }
+  }
+
+  const logOutUser = () => {
+    localStorage.setItem('loggedInUser', '')
     props.changeUser('')
-    
-    
   }
 
   return (
     <div className='flex items-end justify-between'>
       <h1 className='text-2xl font-semibold'>
         Hello <br />
-        <span className='text-3xl'> 👋</span>
+        <span className='text-3xl'>{currentUser} 👋</span>
       </h1>
       <button 
-      onClick={logOutUser}
-      className='bg-red-600 px-3 py-2 rounded-sm active:scale-96 font-semibold'>
+        onClick={logOutUser}
+        className='bg-red-600 px-3 py-2 rounded-sm active:scale-95 font-semibold'>
         Log Out
       </button>
     </div>

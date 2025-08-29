@@ -39,7 +39,6 @@ const Login = ({ loginHandler }) => {
             placeholder="Enter password"
           />
           <button className=" text-xl bg-emerald-500 mt-4 border-white border-2 active:scale-95  rounded-xl py-2 px-4 text-white outline-none">
-            { }
             Login
           </button>
         </form>
