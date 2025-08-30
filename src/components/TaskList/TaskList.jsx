@@ -96,7 +96,7 @@ const TaskList = ({ data }) => {
               </div>
             )}
             {status === "completed" && (
-              <div className="w-full bg-pink-500/80 p-2 text-center rounded-lg font-bold text-sm sm:text-base">
+              <div  className="w-full bg-pink-500/80 p-2 text-center rounded-lg font-bold text-sm sm:text-base">
                 Completed
               </div>
             )}

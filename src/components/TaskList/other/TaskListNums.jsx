@@ -1,7 +1,4 @@
-import React from "react";
-
 const TaskListNums = ({ data }) => {
-  // ✅ fallback object to avoid null errors
   const taskNumbers = data?.taskNumbers || {
     active: 0,
     newTask: 0,

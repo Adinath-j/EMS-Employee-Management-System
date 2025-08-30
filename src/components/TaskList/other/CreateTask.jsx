@@ -13,46 +13,44 @@ const CreateTask = () => {
 
     const [newTask, setNewTask] = useState({})
 
-    const submitHandler = (e) => {
+const submitHandler = (e) => {
   e.preventDefault();
 
+  if (!userData) return; // safeguard
+
   const taskObj = {
-    title: taskTitle,   
-    description: desc,
+    title: taskTitle.trim(),
+    description: desc.trim(),
     date: assignDate,
     category: taskCategory,
-    active: false,
-    newTask: true,
-    failed: false,
-    completed: false,
+    status: "new"
   };
 
-  const updatedData = userData.map((elem) => {
-    if (assignTo === elem.firstname) {
+  const updatedData = userData.map((employee) => {
+    if (assignTo === employee.firstname) {
       return {
-        ...elem,
-        tasks: [...elem.tasks, taskObj],
-        taskNumbers: {
-          ...elem.taskNumbers,
-          newTask: elem.taskNumbers.newTask + 1
+        ...employee,
+        tasks: [...(employee.tasks || []), taskObj],
+        taskCounts: {
+          ...employee.taskCounts,
+          newTask: (employee.taskCounts?.newTask || 0) + 1
         }
       };
     }
-    return elem;
+    return employee;
   });
 
   setUserData(updatedData);
+  localStorage.setItem("employees", JSON.stringify(updatedData));
 
-  // also update localStorage, otherwise it resets on refresh
-  localStorage.setItem('employees', JSON.stringify(updatedData));
-
-  // clear fields
-  setTaskTitle('');
-  setdesc('');
-  setassignDate('');
-  setTaskCategory('');
-  setAssignTo('');
+  // reset fields
+  setTaskTitle("");
+  setdesc("");
+  setassignDate("");
+  setTaskCategory("");
+  setAssignTo("");
 };
+
 
     return (
         <div className="p-5 bg-[#1c1c1c] mt-5 rounded">
