@@ -4,12 +4,12 @@ import { getLocalStorage } from '../utils/localStorage'
 export const AuthContext = createContext()
 
 const AuthProvider = ({ children }) => {
-  const [userData, setUserData] = useState(null)
+  const [userData, setUserData] = useState([])
 
   useEffect(() => {
     const { employees } = getLocalStorage()
 
-    const normalized = employees.map(emp => ({
+    const normalized = (employees || []).map(emp => ({
       ...emp,
       tasks: emp.tasks || [],
       taskCounts: emp.taskCounts || { newTask: 0, completed: 0, failed: 0 }
