@@ -1,5 +1,3 @@
-import React from "react";
-
 const TaskCard = ({ task, color, children }) => {
   if (!task) return null;
 
@@ -39,7 +37,7 @@ const TaskActionButton = ({ label, onClick, color }) => (
   </button>
 );
 
-const TaskList = ({ data }) => {
+const TaskList = ({ data, updateTaskStatus, email }) => {
   if (!data?.tasks?.length) {
     return (
       <div className="mt-10 text-center text-gray-400 text-sm sm:text-base">
@@ -49,8 +47,17 @@ const TaskList = ({ data }) => {
   }
 
   const handleAction = (action, task) => {
-    console.log(`${action} Task:`, task.title);
+    if (!email) {
+      console.error('TaskList: email prop missing — cannot update task status.')
+      return
+    }
+
+    if (action === "Accepting") updateTaskStatus(email, task.title, "active");
+    if (action === "Completing") updateTaskStatus(email, task.title, "completed");
+    if (action === "Failing") updateTaskStatus(email, task.title, "failed");
   };
+
+
 
   const statusColors = {
     new: "bg-blue-500",
@@ -96,7 +103,7 @@ const TaskList = ({ data }) => {
               </div>
             )}
             {status === "completed" && (
-              <div  className="w-full bg-pink-500/80 p-2 text-center rounded-lg font-bold text-sm sm:text-base">
+              <div className="w-full bg-pink-500/80 p-2 text-center rounded-lg font-bold text-sm sm:text-base">
                 Completed
               </div>
             )}
@@ -111,5 +118,6 @@ const TaskList = ({ data }) => {
     </div>
   );
 };
+
 
 export default TaskList;

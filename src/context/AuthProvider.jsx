@@ -12,7 +12,7 @@ const AuthProvider = ({ children }) => {
     const normalized = (employees || []).map(emp => ({
       ...emp,
       tasks: emp.tasks || [],
-      taskCounts: emp.taskCounts || { newTask: 0, completed: 0, failed: 0 }
+      taskNumbers: emp.taskNumbers || { active: 0, newTask: 0, completed: 0, failed: 0 }
     }))
 
     setUserData(normalized)

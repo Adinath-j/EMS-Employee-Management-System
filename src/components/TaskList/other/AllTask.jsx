@@ -5,7 +5,8 @@ const AllTask = () => {
   const [userData] = useContext(AuthContext);
 
   if (!userData) return <p className="text-white">Loading...</p>;
-
+  console.log(userData);
+  
   return (
     <div className="bg-[#1c1c1c] p-6 rounded-2xl shadow-lg mt-5 h-auto">
       <div className="bg-gradient-to-r from-cyan-600 to-emerald-500 text-white font-semibold text-lg mb-4 flex items-center justify-between px-6 py-3 rounded-xl shadow-md">
@@ -27,16 +28,16 @@ const AllTask = () => {
               {elem.firstname}
             </h2>
             <h5 className="w-1/5 text-center text-cyan-400 font-semibold">
-              {elem.taskCounts.newTask}
+              {elem.taskNumbers.newTask}
             </h5>
             <h5 className="w-1/5 text-center text-blue-400 font-semibold">
-              {elem.taskCounts.active || 0}
+              {elem.taskNumbers.active || 0}
             </h5>
             <h5 className="w-1/5 text-center text-emerald-400 font-semibold">
-              {elem.taskCounts.completed}
+              {elem.taskNumbers.completed}
             </h5>
             <h3 className="w-1/5 text-center text-red-400 font-semibold">
-              {elem.taskCounts.failed}
+              {elem.taskNumbers.failed}
             </h3>
           </div>
         ))}

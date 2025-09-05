@@ -14,12 +14,10 @@ const Login = ({ loginHandler }) => {
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen bg-gradient-to-br from-gray-900 via-black to-gray-800">
       
-      {/* Page Header */}
       <h1 className="text-4xl font-extrabold text-emerald-400 mb-10 tracking-wide drop-shadow-lg">
         Employee Management System
       </h1>
 
-      {/* Login Card */}
       <div className="w-full max-w-md bg-gray-900/70 backdrop-blur-lg shadow-2xl rounded-2xl p-8 border border-emerald-500/30">
         <h2 className="text-3xl font-bold text-emerald-400 text-center mb-6">
           Login
@@ -51,12 +49,7 @@ const Login = ({ loginHandler }) => {
             Login
           </button>
         </form>
-        <p className="text-center text-gray-400 text-sm mt-6">
-          Forgot password?{" "}
-          <span className="text-emerald-400 cursor-pointer hover:underline">
-            Reset
-          </span>
-        </p>
+        
       </div>
     </div>
   );
