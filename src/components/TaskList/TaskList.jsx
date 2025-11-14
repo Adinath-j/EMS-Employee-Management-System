@@ -1,4 +1,4 @@
-const TaskCard = ({ task, color, children }) => {
+const TaskCard = ({ task, color, children, actions }) => {
   if (!task) return null;
 
   return (
@@ -22,7 +22,10 @@ const TaskCard = ({ task, color, children }) => {
         </p>
       </header>
 
-      <footer className="mt-4">{children}</footer>
+      <footer className="mt-4 space-y-2">
+        {actions && <div className="mb-2">{actions}</div>}
+        {children}
+      </footer>
     </article>
   );
 };

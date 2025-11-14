@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Login = ({ loginHandler }) => {
+const Login = ({ loginHandler, onSwitchToRegister }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -49,7 +49,27 @@ const Login = ({ loginHandler }) => {
             Login
           </button>
         </form>
-        
+
+        {/* Register Link */}
+        <div className="mt-6 text-center">
+          <p className="text-gray-400 text-sm">
+            Don't have an account?{" "}
+            <button
+              onClick={onSwitchToRegister}
+              className="text-emerald-400 hover:text-emerald-300 font-semibold transition-colors"
+            >
+              Register here
+            </button>
+          </p>
+        </div>
+
+        {/* Demo Credentials */}
+        <div className="mt-4 p-3 bg-gray-800/50 rounded-lg border border-gray-700">
+          <p className="text-xs text-gray-400 font-medium mb-2">Demo Credentials:</p>
+          <p className="text-xs text-gray-300">
+            <span className="text-emerald-400">Admin:</span> admin@me.com / 123
+          </p>
+        </div>
       </div>
     </div>
   );

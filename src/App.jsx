@@ -1,14 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react'
 import Login from './components/Auth/Login'
+import Register from './components/Auth/Register'
 import EmployeeDashboard from './components/Dashboard/EmployeeDashboard'
 import AdminDashboard from './components/Dashboard/AdminDashboard'
 import { AuthContext } from './context/AuthProvider'
 import { setLocalStorage } from './utils/localStorage'
+import { useToast } from './components/Toast/ToastContainer'
 
 const App = () => {
   const [user, setUser] = useState(null)
   const [loggedInUserData, setLoggedInUserData] = useState(null)
   const [userData, setUserData] = useContext(AuthContext)
+  const [showRegister, setShowRegister] = useState(false)
+  const { showToast } = useToast()
 
   const updateTaskStatus = (email, taskTitle, status) => {
     if (!userData || !Array.isArray(userData)) return
@@ -20,12 +24,15 @@ const App = () => {
         if (task.title !== taskTitle) return task
 
         if (status === 'active') {
+          showToast(`Task "${taskTitle}" accepted!`, 'success')
           return { ...task, newTask: false, active: true, completed: false, failed: false }
         }
         if (status === 'completed') {
+          showToast(`Task "${taskTitle}" completed!`, 'success')
           return { ...task, newTask: false, active: false, completed: true, failed: false }
         }
         if (status === 'failed') {
+          showToast(`Task "${taskTitle}" marked as failed`, 'warning')
           return { ...task, newTask: false, active: false, completed: false, failed: true }
         }
         return task
@@ -64,23 +71,34 @@ const App = () => {
     if (email === 'admin@me.com' && password === '123') {
       setUser('admin')
       localStorage.setItem('loggedInUser', JSON.stringify({ role: 'admin' }))
+      showToast('Welcome back, Admin!', 'success')
     } else if (userData) {
       const employee = userData.find(e => email === e.email && password === e.password)
       if (employee) {
         setUser('employee')
         setLoggedInUserData(employee)
         localStorage.setItem('loggedInUser', JSON.stringify({ role: 'employee', data: employee }))
+        showToast(`Welcome, ${employee.firstname}!`, 'success')
       } else {
-        alert("Invalid Credentials")
+        showToast('Invalid credentials', 'error')
       }
     } else {
-      alert("Invalid Credentials")
+      showToast('Invalid credentials', 'error')
     }
   }
 
   return (
     <>
-      {!user ? <Login loginHandler={loginHandler} /> : null}
+      {!user ? (
+        showRegister ? (
+          <Register onSwitchToLogin={() => setShowRegister(false)} />
+        ) : (
+          <Login 
+            loginHandler={loginHandler}
+            onSwitchToRegister={() => setShowRegister(true)}
+          />
+        )
+      ) : null}
 
       {user === 'admin' ? (
         <AdminDashboard changeUser={setUser} />

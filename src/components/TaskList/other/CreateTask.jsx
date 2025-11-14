@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../../context/AuthProvider";
+import { useToast } from "../../Toast/ToastContainer";
 
 const CreateTask = () => {
   const [userData, setUserData] = useContext(AuthContext);
+  const { showToast } = useToast();
 
   const [taskTitle, setTaskTitle] = useState("");
   const [desc, setdesc] = useState("");
@@ -73,6 +75,8 @@ const CreateTask = () => {
 
     localStorage.setItem("employees", JSON.stringify(updatedEmployees));
     setUserData(updatedEmployees);
+
+    showToast(`Task "${taskTitle}" created successfully!`, "success");
 
     setTaskTitle("");
     setdesc("");

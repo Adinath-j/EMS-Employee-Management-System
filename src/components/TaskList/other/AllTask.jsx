@@ -9,12 +9,12 @@ const AllTask = () => {
   
   return (
     <div className="bg-[#1c1c1c] p-6 rounded-2xl shadow-lg mt-5 h-auto">
-      <div className="bg-gradient-to-r from-cyan-600 to-emerald-500 text-white font-semibold text-lg mb-4 flex items-center justify-between px-6 py-3 rounded-xl shadow-md">
-        <h2 className="w-1/5 text-center">Employee</h2>
-        <h5 className="w-1/5 text-center">New Task</h5>
-        <h5 className="w-1/5 text-center">Active Task</h5>
-        <h5 className="w-1/5 text-center">Completed</h5>
-        <h3 className="w-1/5 text-center">Failed</h3>
+      <div className="bg-gradient-to-r from-gray-950  to-green-950 text-white font-semibold text-lg mb-4 flex items-center justify-between px-6 py-3 rounded-xl shadow-md">
+        <h2 className="text-gray-200 w-1/5 text-center">Employee</h2>
+        <h5 className="text-cyan-400 w-1/5 text-center">New Task</h5>
+        <h5 className="text-blue-400 w-1/5 text-center">Active Task</h5>
+        <h5 className="text-emerald-400 w-1/5 text-center">Completed</h5>
+        <h3 className="text-red-400 w-1/5 text-center">Failed</h3>
       </div>
 
       <div className="h-[80%] space-y-3">
